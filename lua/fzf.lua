@@ -2,6 +2,47 @@ local fzf = require('fzf-lua')
 local actions = require('fzf-lua.actions')
 local map = vim.keymap.set
 
+local function project_excludes()
+  local cwd = vim.fn.getcwd()
+  local root = vim.fs.root(cwd, '.git')
+  local excludes = {}
+  if not root then
+    return excludes
+  end
+
+  for _, path in ipairs { 'lib/2dengine-love.js', 'lib/luaunit' } do
+    local full_path = root .. '/' .. path
+    local relative = vim.fs.relpath(cwd, full_path)
+    if relative and vim.fn.isdirectory(full_path) == 1 then
+      table.insert(excludes, relative)
+    end
+  end
+  return excludes
+end
+
+local function find_project_files()
+  local fd_opts = '--color=never --type f --type l --exclude .git --exclude .jj'
+  local rg_opts = '--color=never --files -g "!.git" -g "!.jj"'
+  for _, path in ipairs(project_excludes()) do
+    fd_opts = fd_opts .. ' --exclude ' .. vim.fn.shellescape(path)
+    rg_opts = rg_opts .. ' -g ' .. vim.fn.shellescape('!' .. path .. '/**')
+  end
+  fzf.files { fd_opts = fd_opts, rg_opts = rg_opts }
+end
+
+local function grep_project(use_globs)
+  local rg_opts = '--column --line-number --no-heading --color=always --smart-case --max-columns=4096'
+  for _, path in ipairs(project_excludes()) do
+    rg_opts = rg_opts .. ' -g ' .. vim.fn.shellescape('!' .. path .. '/**')
+  end
+  rg_opts = rg_opts .. ' -e'
+  if use_globs then
+    fzf.live_grep { rg_opts = rg_opts }
+  else
+    fzf.live_grep_native { rg_opts = rg_opts }
+  end
+end
+
 fzf.setup {
   'telescope',
   winopts = {
@@ -35,8 +76,8 @@ fzf.setup {
 -- Buffers and files
 map('n', '<leader>bb', '<cmd>FzfLua buffers<cr>', { desc = 'Search buffers' })
 map('n', '<leader>fb', '<cmd>FzfLua buffers<cr>', { desc = 'Find buffers' })
-map('n', '<leader><leader>', '<cmd>FzfLua files<cr>', { desc = 'Find files' })
-map('n', '<leader>ff', '<cmd>FzfLua files<cr>', { desc = 'Find files' })
+map('n', '<leader><leader>', find_project_files, { desc = 'Find files' })
+map('n', '<leader>ff', find_project_files, { desc = 'Find files' })
 map('n', '<leader>fa', function()
   fzf.files { cmd = 'rg --color=never --files --ignore-case --hidden --no-ignore -g "!.git"' }
 end, { desc = 'Find all files, including hidden and ignored' })
@@ -61,10 +102,10 @@ map('n', '<leader>sc', function()
 end, { desc = 'Search Neovim config' })
 
 -- Text
-map('n', '<leader>/', '<cmd>FzfLua live_grep_native<cr>', { desc = 'Search text' })
-map('n', '<leader>fg', '<cmd>FzfLua live_grep_native<cr>', { desc = 'Find by grep' })
-map('n', '<leader>sg', '<cmd>FzfLua live_grep_native<cr>', { desc = 'Search by grep' })
-map('n', '<leader>sf', '<cmd>FzfLua live_grep<cr>', { desc = 'Search text with globs' })
+map('n', '<leader>/', function() grep_project(false) end, { desc = 'Search text' })
+map('n', '<leader>fg', function() grep_project(false) end, { desc = 'Find by grep' })
+map('n', '<leader>sg', function() grep_project(false) end, { desc = 'Search by grep' })
+map('n', '<leader>sf', function() grep_project(true) end, { desc = 'Search text with globs' })
 map('n', '<leader>sa', function()
   fzf.live_grep_native {
     rg_opts = '--column --line-number --no-heading --color=always --smart-case --max-columns=4096 --hidden --no-ignore -g "!.git" -e',
