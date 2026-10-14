@@ -1,7 +1,8 @@
 # Minimal Neovim config
 
 Neovim 0.12+ configuration for Lua and LÖVE. It uses native LSP and completion,
-and installs `nvim-treesitter`, `nvim-tree`, `fzf-lua`, and `gitsigns.nvim` with Neovim's `vim.pack`.
+and installs `nvim-treesitter`, `nvim-tree`, `fzf-lua`, `gitsigns.nvim`, and
+`vim-fugitive` with Neovim's `vim.pack`.
 
 ## Requirements
 
@@ -38,3 +39,5 @@ Use `[c` and `]c` to move between hunks, `<leader>gs` and `<leader>gr` to
 stage or reset a hunk, and `<leader>gp` to preview one. Other git actions
 include `<leader>gS` to stage the buffer, `<leader>gu` to undo staging,
 `<leader>gR` to reset the buffer, and `<leader>gb` to show line blame.
+Use `:Git` for Fugitive's Git status and commands, or `:Gdiffsplit` to compare
+the current file with its Git version.

@@ -75,10 +75,15 @@ map('n', ']b', '<cmd>bnext<cr>', { desc = 'Next Buffer' })
 map('n', '<leader>bd', '<cmd>:bp | sp | bn | bd<cr>', { desc = '[d]elete Buffer' })
 map('n', '<leader>bo', buffers.delete_all_other_buffers, { desc = 'Delete All [o]ther Buffers', silent = true })
 
-
 -- [[ Tabs ]]
 map('n', '<leader><tab>o', '<cmd>tabonly<cr>', { desc = 'Close [o]ther Tabs' })
 map('n', '<leader><tab><tab>', '<cmd>tabnew<cr>', { desc = 'New Tab' })
 map('n', '<leader><tab>d', '<cmd>tabclose<cr>', { desc = '[d]elete (Close) Tab' })
 map('n', ']<tab>', '<cmd>tabnext<cr>', { desc = 'Next Tab' })
 map('n', '[<tab>', '<cmd>tabprevious<cr>', { desc = 'Previous Tab' })
+
+-- [[ Git ]]
+
+map('n', '<leader>gd', '<cmd>:tab Git<cr>', { desc = 'Open [d]iff View' })
+map('n', '<leader>gm', "<cmd>:exec 'norm O' | Gvdiffsplit!<cr>", { desc = 'Open [m]erge View' })
+map('n', '<leader>gl', '<cmd>:0GcLog<cr>', { desc = 'Open file [l]og' })
