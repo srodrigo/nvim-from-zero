@@ -1,7 +1,7 @@
 # Minimal Neovim config
 
 Neovim 0.12+ configuration for Lua and LÖVE. It uses native LSP and completion,
-and installs only `nvim-treesitter` with Neovim's `vim.pack`.
+and installs `nvim-treesitter` and `nvim-tree` with Neovim's `vim.pack`.
 
 ## Requirements
 
