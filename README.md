@@ -22,6 +22,8 @@ setup. After updating `nvim-treesitter` with `:lua vim.pack.update()`, run
 item with `<C-y>`.
 
 Toggle nvim-tree with `<leader>e`.
+Insert-mode autopairs handle `()`, `[]`, `{}`, quotes, and backticks. Typing a
+closer skips one already at the cursor; Backspace removes an empty pair.
 Use `<leader>ff` or `<leader><leader>` to find files, `<leader>fg` or
 `<leader>sg` to search project text, `<leader>fb` or `<leader>bb` to switch
 buffers, and `<leader>fh` or `<leader>sh` to search help. Use `<leader>fa`
