@@ -1,6 +1,7 @@
 require("config")
 require("keymaps")
 require("autopairs")
+require("surround")
 require("plugins")
 require("colorscheme")
 require("fzf")

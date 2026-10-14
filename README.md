@@ -24,6 +24,10 @@ item with `<C-y>`.
 Toggle nvim-tree with `<leader>e`.
 Insert-mode autopairs handle `()`, `[]`, `{}`, quotes, and backticks. Typing a
 closer skips one already at the cursor; Backspace removes an empty pair.
+Surround text with `ys` and a motion (`ysiw)`), `yss)` for a line, or visual
+`S` followed by a delimiter. Use `ds)` to remove an enclosing pair and `cs)'`
+to change it. Supported delimiters are `()`, `[]`, `{}`, `<>`, quotes, and
+backticks; `b`, `r`, `B`, and `a` alias the four bracket pairs.
 Use `<leader>ff` or `<leader><leader>` to find files, `<leader>fg` or
 `<leader>sg` to search project text, `<leader>fb` or `<leader>bb` to switch
 buffers, and `<leader>fh` or `<leader>sh` to search help. Use `<leader>fa`
