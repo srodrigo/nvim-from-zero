@@ -3,6 +3,7 @@ vim.pack.add({
   { src = 'https://github.com/nvim-tree/nvim-tree.lua' },
   { src = 'https://github.com/nvim-tree/nvim-web-devicons' },
   { src = 'https://github.com/ibhagwan/fzf-lua' },
+  { src = 'https://github.com/lewis6991/gitsigns.nvim' },
   { src = 'https://github.com/gbprod/nord.nvim' },
 })
 

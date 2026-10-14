@@ -1,7 +1,7 @@
 # Minimal Neovim config
 
 Neovim 0.12+ configuration for Lua and LÖVE. It uses native LSP and completion,
-and installs `nvim-treesitter`, `nvim-tree`, and `fzf-lua` with Neovim's `vim.pack`.
+and installs `nvim-treesitter`, `nvim-tree`, `fzf-lua`, and `gitsigns.nvim` with Neovim's `vim.pack`.
 
 ## Requirements
 
@@ -33,3 +33,8 @@ Use `<leader>ff` or `<leader><leader>` to find files, `<leader>fg` or
 buffers, and `<leader>fh` or `<leader>sh` to search help. Use `<leader>fa`
 and `<leader>sa` to include hidden and ignored files. Other fzf-lua shortcuts
 are grouped under `<leader>s`, with git pickers under `<leader>g`.
+Gitsigns shows changes in the sign column and line blame after 400 ms.
+Use `[c` and `]c` to move between hunks, `<leader>gs` and `<leader>gr` to
+stage or reset a hunk, and `<leader>gp` to preview one. Other git actions
+include `<leader>gS` to stage the buffer, `<leader>gu` to undo staging,
+`<leader>gR` to reset the buffer, and `<leader>gb` to show line blame.
