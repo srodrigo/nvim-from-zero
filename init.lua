@@ -7,6 +7,9 @@ require("surround")
 require("plugins")
 require("git_signs")
 require("colorscheme")
+require('markview').setup({
+  preview = { enable = false },
+})
 require("fzf")
 require("explorer")
 require("lsp")

@@ -1,7 +1,7 @@
 # Minimal Neovim config
 
 Neovim 0.12+ configuration for Lua, LÖVE, and TypeScript. It uses native LSP and completion,
-and installs `mason.nvim`, `conform.nvim`, `nvim-treesitter`, `nvim-tree`, `fzf-lua`, `gitsigns.nvim`, and
+and installs `mason.nvim`, `conform.nvim`, `nvim-treesitter`, `nvim-tree`, `fzf-lua`, `gitsigns.nvim`, `markview.nvim`, and
 `vim-fugitive` with Neovim's `vim.pack`.
 
 ## Requirements
@@ -58,6 +58,7 @@ buffers, and `<leader>fh` or `<leader>sh` to search help. Use `<leader>fa`
 and `<leader>sa` to include hidden and ignored files. Other fzf-lua shortcuts
 are grouped under `<leader>s`, with git pickers under `<leader>g`.
 Gitsigns shows changes in the sign column and line blame after 400 ms.
+Markview's Markdown preview starts disabled. Toggle it with `<leader>m` or `:Markview`.
 Use `[c` and `]c` to move between hunks, `<leader>gs` and `<leader>gr` to
 stage or reset a hunk, and `<leader>gp` to preview one. Other git actions
 include `<leader>gS` to stage the buffer, `<leader>gu` to undo staging,
