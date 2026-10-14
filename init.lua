@@ -1,5 +1,6 @@
 require("config")
 require("keymaps")
 require("plugins")
+require("fzf")
 require("explorer")
 require("lsp")
