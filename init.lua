@@ -7,6 +7,7 @@ require("surround")
 require("plugins")
 require("git_signs")
 require("colorscheme")
+require("statusline")
 require('markview').setup({
   preview = { enable = false },
 })
