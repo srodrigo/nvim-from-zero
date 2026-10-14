@@ -30,7 +30,7 @@ local prettier_filetypes = {
 
 vim.api.nvim_create_autocmd('BufWritePre', {
   callback = function(event)
-    if prettier_filetypes[vim.bo[event.buf].filetype] then
+    if vim.g.format_on_save and prettier_filetypes[vim.bo[event.buf].filetype] then
       require('conform').format({ bufnr = event.buf, timeout_ms = 1000 })
     end
   end,

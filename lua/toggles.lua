@@ -39,7 +39,9 @@ function M.toggle_diagnostics()
 	end
 end
 
-vim.g.format_on_save = true
+if vim.g.format_on_save == nil then
+	vim.g.format_on_save = true
+end
 function M.toggle_format_on_save()
 	vim.g.format_on_save = not vim.g.format_on_save
 
