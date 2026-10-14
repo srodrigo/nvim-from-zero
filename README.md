@@ -20,3 +20,5 @@ setup. After updating `nvim-treesitter` with `:lua vim.pack.update()`, run
 `:TSUpdate` to update its Lua parser. Neovim's built-in LSP mappings include
 `K` for hover, `grn` for rename, and `gra` for code actions. Accept a completion
 item with `<C-y>`.
+
+Toggle nvim-tree with `<leader>e`.

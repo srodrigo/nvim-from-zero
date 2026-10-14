@@ -1,5 +1,4 @@
-vim.opt.completeopt = { 'menuone', 'noselect', 'popup' }
-
-require('plugins')
-require('explorer')
-require('lsp')
+require("config")
+require("plugins")
+require("explorer")
+require("lsp")
