@@ -1,10 +1,10 @@
 local map = vim.keymap.set
+local diagnostics = require('diagnostics')
+local buffers = require('buffers')
+local completion = require('completion')
 
 -- [[ Basic Keymaps ]]
 --  See `:help vim.keymap.set()`
-
--- Set highlight on search, but clear on pressing <Esc> in normal mode
-vim.opt.hlsearch = true
 
 map("n", "<Esc>", "<cmd>nohlsearch<CR>")
 
@@ -26,52 +26,12 @@ map('v', '>', '>gv')
 
 -- [[ Diagnostics ]]
 
-local function open_buffer_diagnostics_on_quickfix()
-  local bufnr = vim.api.nvim_get_current_buf()
-  vim.diagnostic.setqflist {
-    title = 'Buffer diagnostics',
-    format = function(diagnostic)
-      if diagnostic.bufnr == bufnr then
-        return diagnostic.message
-      end
-    end,
-  }
-end
-
--- local function open_buffer_diagnostics_on_quickfix()
---   local qflist = {}
---
---   local diagnostics = vim.diagnostic.get()
---   for _, diag in ipairs(diagnostics) do
---     if vim.fn.bufnr '%' == diag.bufnr then
---       table.insert(qflist, {
---         bufnr = diag.bufnr,
---         lnum = diag.lnum + 1,
---         col = diag.col + 1,
---         text = diag.message,
---         severity = diag.severity,
---       })
---     end
---   end
---
---   vim.fn.setqflist(qflist, 'r')
---   vim.cmd.copen()
--- end
-
-map('n', '[d', function()
-  vim.diagnostic.jump { count = -1 }
-end, { desc = 'Go to Previous [d]iagnostic message' })
-map('n', ']d', function()
-  vim.diagnostic.jump { count = 1 }
-end, { desc = 'Go to Next [d]iagnostic message' })
-map('n', '[e', function()
-  vim.diagnostic.jump { count = -1, severity = vim.diagnostic.severity.ERROR }
-end, { desc = 'Go to Previous [e]rror message' })
-map('n', ']e', function()
-  vim.diagnostic.jump { count = 1, severity = vim.diagnostic.severity.ERROR }
-end, { desc = 'Go to Next [e]rror message' })
+map('n', '[d', diagnostics.previous, { desc = 'Go to Previous [d]iagnostic message' })
+map('n', ']d', diagnostics.next, { desc = 'Go to Next [d]iagnostic message' })
+map('n', '[e', diagnostics.previous_error, { desc = 'Go to Previous [e]rror message' })
+map('n', ']e', diagnostics.next_error, { desc = 'Go to Next [e]rror message' })
 map('n', '<leader>cd', vim.diagnostic.open_float, { desc = 'Line [d]iagnostics' })
-map('n', '<leader>cq', open_buffer_diagnostics_on_quickfix, { desc = 'Diagnostic [q]uickfix list' })
+map('n', '<leader>cq', diagnostics.open_buffer_on_quickfix, { desc = 'Diagnostic [q]uickfix list' })
 
 -- [[ Windows ]]
 
@@ -103,45 +63,17 @@ map('n', '<M-Left>', '<cmd>vertical resize -2<cr>', { desc = 'Decrease Window Wi
 map('n', '<M-Right>', '<cmd>vertical resize +2<cr>', { desc = 'Increase Window Width' })
 
 -- Tab to navigate completion menu or insert tab
-map("i", "<Tab>", function()
-	if vim.fn.pumvisible() == 1 then
-		return "<C-n>"
-	elseif vim.snippet.active({ direction = 1 }) then
-		return "<Cmd>lua vim.snippet.jump(1)<CR>"
-	else
-		return "<Tab>"
-	end
-end, { expr = true, desc = "Next completion or snippet jump" })
+map("i", "<Tab>", completion.next, { expr = true, desc = "Next completion or snippet jump" })
 
 -- Shift-Tab to navigate completion menu backwards
-map("i", "<S-Tab>", function()
-	if vim.fn.pumvisible() == 1 then
-		return "<C-p>"
-	elseif vim.snippet.active({ direction = -1 }) then
-		return "<Cmd>lua vim.snippet.jump(-1)<CR>"
-	else
-		return "<S-Tab>"
-	end
-end, { expr = true, desc = "Previous completion or snippet jump" })
+map("i", "<S-Tab>", completion.previous, { expr = true, desc = "Previous completion or snippet jump" })
 
 -- [[ Buffers ]]
-
-local function delete_all_other_buffers()
-  for _, buf in ipairs(vim.api.nvim_list_bufs()) do
-    if
-      vim.api.nvim_get_option_value('buflisted', { buf = buf })
-      and not vim.api.nvim_get_option_value('modified', { buf = buf })
-      and buf ~= vim.api.nvim_get_current_buf()
-    then
-      vim.api.nvim_buf_delete(buf, {})
-    end
-  end
-end
 
 map('n', '[b', '<cmd>bprevious<cr>', { desc = 'Prev Buffer' })
 map('n', ']b', '<cmd>bnext<cr>', { desc = 'Next Buffer' })
 map('n', '<leader>bd', '<cmd>:bp | sp | bn | bd<cr>', { desc = '[d]elete Buffer' })
-map('n', '<leader>bo', delete_all_other_buffers, { desc = 'Delete All [o]ther Buffers', silent = true })
+map('n', '<leader>bo', buffers.delete_all_other_buffers, { desc = 'Delete All [o]ther Buffers', silent = true })
 
 
 -- [[ Tabs ]]
