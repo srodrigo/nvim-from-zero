@@ -1,5 +1,6 @@
 require("config")
 require("keymaps")
+require("terminal")
 require("autopairs")
 require("surround")
 require("plugins")

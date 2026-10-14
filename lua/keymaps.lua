@@ -82,6 +82,21 @@ map('n', '<leader><tab>d', '<cmd>tabclose<cr>', { desc = '[d]elete (Close) Tab' 
 map('n', ']<tab>', '<cmd>tabnext<cr>', { desc = 'Next Tab' })
 map('n', '[<tab>', '<cmd>tabprevious<cr>', { desc = 'Previous Tab' })
 
+-- [[ Terminal ]]
+
+map('n', '<leader>tt', '<cmd>TermToggle<cr>', { desc = 'Toggle terminal' })
+map('n', '<leader>th', '<cmd>TermToggleHorizontal<cr>', { desc = 'Toggle horizontal terminal' })
+map('n', '<leader>tv', '<cmd>TermToggleVertical<cr>', { desc = 'Toggle vertical terminal' })
+map('n', '<leader>tf', '<cmd>TermToggleFloat<cr>', { desc = 'Toggle floating terminal' })
+
+-- Exit terminal mode in the builtin terminal with a shortcut that is a bit easier
+-- for people to discover. Otherwise, you normally need to press <C-\><C-n>, which
+-- is not what someone will guess without a bit more experience.
+--
+-- NOTE: This won't work in all terminal emulators/tmux/etc. Try your own mapping
+-- or just use <C-\><C-n> to exit terminal mode
+map('t', '<Esc><Esc>', '<C-\\><C-n>', { desc = 'Exit terminal mode' })
+
 -- [[ Git ]]
 
 map('n', '<leader>gd', '<cmd>:tab Git<cr>', { desc = 'Open [d]iff View' })

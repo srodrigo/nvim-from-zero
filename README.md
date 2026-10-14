@@ -40,6 +40,12 @@ setup. After updating `nvim-treesitter` with `:lua vim.pack.update()`, run
 item with `<C-y>`.
 
 Toggle nvim-tree with `<leader>e`.
+Toggle a reusable terminal with `<leader>th` (horizontal), `<leader>tv`
+(vertical), or `<leader>tf` (floating). The corresponding commands are
+`:TermToggleHorizontal`, `:TermToggleVertical`, and `:TermToggleFloat`. Use
+`<C-\\><C-n>` to leave terminal mode, then toggle again to hide it. Switching
+layouts keeps the same shell until it exits.
+
 Insert-mode autopairs handle `()`, `[]`, `{}`, quotes, and backticks. Typing a
 closer skips one already at the cursor; Backspace removes an empty pair.
 Surround text with `ys` and a motion (`ysiw)`), `yss)` for a line, or visual
