@@ -77,3 +77,13 @@ vim.api.nvim_create_autocmd('LspAttach', {
 
 vim.lsp.enable('lua_ls')
 vim.lsp.enable('ts_ls')
+
+vim.api.nvim_create_autocmd('BufWritePre', {
+  pattern = '*.lua',
+  callback = function(event)
+    if #vim.lsp.get_clients({ bufnr = event.buf, method = 'textDocument/formatting' }) == 0 then
+      return
+    end
+    vim.lsp.buf.format({ bufnr = event.buf, name = 'lua_ls', timeout_ms = 1000 })
+  end,
+})

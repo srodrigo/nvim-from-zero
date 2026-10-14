@@ -1,7 +1,7 @@
 # Minimal Neovim config
 
 Neovim 0.12+ configuration for Lua, LÖVE, and TypeScript. It uses native LSP and completion,
-and installs `mason.nvim`, `nvim-treesitter`, `nvim-tree`, `fzf-lua`, `gitsigns.nvim`, and
+and installs `mason.nvim`, `conform.nvim`, `nvim-treesitter`, `nvim-tree`, `fzf-lua`, `gitsigns.nvim`, and
 `vim-fugitive` with Neovim's `vim.pack`.
 
 ## Requirements
@@ -20,6 +20,11 @@ definitions. Run a game from the project root with `love .`.
 TypeScript LSP, completion, and Tree-sitter highlighting work for `.ts` and
 `.tsx` files. Use `:MasonInstall typescript-language-server` to install the
 server; Mason adds its executable to Neovim's `PATH`.
+
+Lua files format on save through LuaLS. JavaScript and TypeScript files format
+on save through Conform and Prettier. Install Prettier with `:MasonInstall prettier`;
+Mason makes the executable available to Conform. Use `:ConformInfo` in a buffer
+to check which formatter is available.
 
 Use `gd` for a symbol's definition and `gr` for its references when an LSP is
 attached. In TypeScript buffers, `gD` goes to source definition and `gR`
