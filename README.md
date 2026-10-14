@@ -1,6 +1,6 @@
 # Minimal Neovim config
 
-Neovim 0.12+ configuration for Lua, LÖVE, Fennel, and TypeScript. It uses native LSP and completion,
+Neovim 0.12+ configuration for Lua, LÖVE, Fennel, TypeScript, and PHP. It uses native LSP and completion,
 and installs `mason.nvim`, `conform.nvim`, `nvim-treesitter`, `nvim-tree`, `fzf-lua`, `gitsigns.nvim`, `markview.nvim`, and
 `vim-fugitive` with Neovim's `vim.pack`.
 
@@ -8,6 +8,7 @@ and installs `mason.nvim`, `conform.nvim`, `nvim-treesitter`, `nvim-tree`, `fzf-
 
 - `nvim` 0.12+, `git`, `lua-language-server`, `tree-sitter` 0.26.1+, a C compiler, `fzf` newer than 0.36, and `rg` in `PATH`
 - `node` and `npm` to install and run the TypeScript language server through Mason
+- `php` to run PHPactor
 - Network access on the first launch to fetch the plugins and Lua, TypeScript, and TSX parsers
 
 Run this config with `NVIM_APPNAME=nvim-from-zero nvim`, or rename its directory
@@ -22,6 +23,9 @@ TypeScript LSP, completion, and Tree-sitter highlighting work for `.ts` and
 server; Mason adds its executable to Neovim's `PATH`.
 
 Fennel LSP and completion work for `.fnl` files. Use `:MasonInstall fennel-ls`
+to install the server; Mason adds its executable to Neovim's `PATH`.
+
+PHP LSP and completion work for `.php` files. Use `:MasonInstall phpactor`
 to install the server; Mason adds its executable to Neovim's `PATH`.
 
 Lua files format on save through LuaLS. JavaScript and TypeScript files format
