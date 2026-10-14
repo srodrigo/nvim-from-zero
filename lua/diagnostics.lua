@@ -1,5 +1,15 @@
 local M = {}
 
+local function jump(count, severity)
+  vim.diagnostic.jump {
+    count = count,
+    severity = severity,
+    on_jump = function()
+      vim.diagnostic.open_float { scope = 'cursor', focus = false }
+    end,
+  }
+end
+
 function M.open_buffer_on_quickfix()
   local bufnr = vim.api.nvim_get_current_buf()
   vim.diagnostic.setqflist {
@@ -13,19 +23,19 @@ function M.open_buffer_on_quickfix()
 end
 
 function M.previous()
-  vim.diagnostic.jump { count = -1 }
+  jump(-1)
 end
 
 function M.next()
-  vim.diagnostic.jump { count = 1 }
+  jump(1)
 end
 
 function M.previous_error()
-  vim.diagnostic.jump { count = -1, severity = vim.diagnostic.severity.ERROR }
+  jump(-1, vim.diagnostic.severity.ERROR)
 end
 
 function M.next_error()
-  vim.diagnostic.jump { count = 1, severity = vim.diagnostic.severity.ERROR }
+  jump(1, vim.diagnostic.severity.ERROR)
 end
 
 return M
