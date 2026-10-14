@@ -1,4 +1,5 @@
 require("config")
+require("autocommands")
 require("keymaps")
 require("terminal")
 require("autopairs")
