@@ -53,6 +53,15 @@ vim.lsp.config('ts_ls', {
   end,
 })
 
+vim.lsp.config('fennel_ls', {
+  cmd = { 'fennel-ls' },
+  filetypes = { 'fennel' },
+  root_dir = function(bufnr, on_dir)
+    local path = vim.fs.normalize(vim.api.nvim_buf_get_name(bufnr))
+    on_dir(vim.fs.root(bufnr, { 'flsproject.fnl', '.git' }) or vim.fs.dirname(path))
+  end,
+})
+
 vim.api.nvim_create_autocmd('LspAttach', {
   callback = function(event)
     local client = vim.lsp.get_client_by_id(event.data.client_id)
@@ -100,6 +109,7 @@ vim.api.nvim_create_autocmd('LspAttach', {
 
 vim.lsp.enable('lua_ls')
 vim.lsp.enable('ts_ls')
+vim.lsp.enable('fennel_ls')
 
 vim.api.nvim_create_autocmd('BufWritePre', {
   pattern = '*.lua',

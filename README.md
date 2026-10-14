@@ -1,6 +1,6 @@
 # Minimal Neovim config
 
-Neovim 0.12+ configuration for Lua, LÖVE, and TypeScript. It uses native LSP and completion,
+Neovim 0.12+ configuration for Lua, LÖVE, Fennel, and TypeScript. It uses native LSP and completion,
 and installs `mason.nvim`, `conform.nvim`, `nvim-treesitter`, `nvim-tree`, `fzf-lua`, `gitsigns.nvim`, `markview.nvim`, and
 `vim-fugitive` with Neovim's `vim.pack`.
 
@@ -20,6 +20,9 @@ definitions. Run a game from the project root with `love .`.
 TypeScript LSP, completion, and Tree-sitter highlighting work for `.ts` and
 `.tsx` files. Use `:MasonInstall typescript-language-server` to install the
 server; Mason adds its executable to Neovim's `PATH`.
+
+Fennel LSP and completion work for `.fnl` files. Use `:MasonInstall fennel-ls`
+to install the server; Mason adds its executable to Neovim's `PATH`.
 
 Lua files format on save through LuaLS. JavaScript and TypeScript files format
 on save through Conform and Prettier. Install Prettier with `:MasonInstall prettier`;
@@ -58,10 +61,11 @@ buffers, and `<leader>fh` or `<leader>sh` to search help. Use `<leader>fa`
 and `<leader>sa` to include hidden and ignored files. Other fzf-lua shortcuts
 are grouped under `<leader>s`, with git pickers under `<leader>g`.
 Gitsigns shows changes in the sign column and line blame after 400 ms.
-Markview's Markdown preview starts disabled. Toggle it with `<leader>m` or `:Markview`.
 Use `[c` and `]c` to move between hunks, `<leader>gs` and `<leader>gr` to
 stage or reset a hunk, and `<leader>gp` to preview one. Other git actions
 include `<leader>gS` to stage the buffer, `<leader>gu` to undo staging,
 `<leader>gR` to reset the buffer, and `<leader>gb` to show line blame.
 Use `:Git` for Fugitive's Git status and commands, or `:Gdiffsplit` to compare
 the current file with its Git version.
+
+Markview's Markdown preview starts disabled. Toggle it with `:Markview`.
