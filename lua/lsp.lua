@@ -3,6 +3,7 @@ local config_dir = vim.fs.normalize(vim.fn.stdpath('config'))
 vim.lsp.config('lua_ls', {
   cmd = { 'lua-language-server' },
   filetypes = { 'lua' },
+  settings = {},
   root_dir = function(bufnr, on_dir)
     local path = vim.fs.normalize(vim.api.nvim_buf_get_name(bufnr))
 
@@ -29,6 +30,7 @@ vim.lsp.config('lua_ls', {
           version = 'LuaJIT',
           special = { ['love.filesystem.load'] = 'loadfile' },
         },
+        diagnostics = { globals = { 'love' } },
         workspace = {
           checkThirdParty = false,
           library = { '${3rd}/love2d/library' },
@@ -37,7 +39,7 @@ vim.lsp.config('lua_ls', {
     end
 
     if lua_settings then
-      config.settings = vim.tbl_deep_extend('force', config.settings or {}, { Lua = lua_settings })
+      config.settings.Lua = vim.tbl_deep_extend('force', config.settings.Lua or {}, lua_settings)
     end
   end,
 })
