@@ -25,6 +25,7 @@ map('v', '<', '<gv')
 map('v', '>', '>gv')
 
 -- [[ Diagnostics ]]
+
 local function open_buffer_diagnostics_on_quickfix()
   local bufnr = vim.api.nvim_get_current_buf()
   vim.diagnostic.setqflist {
@@ -122,3 +123,30 @@ map("i", "<S-Tab>", function()
 		return "<S-Tab>"
 	end
 end, { expr = true, desc = "Previous completion or snippet jump" })
+
+-- [[ Buffers ]]
+
+local function delete_all_other_buffers()
+  for _, buf in ipairs(vim.api.nvim_list_bufs()) do
+    if
+      vim.api.nvim_get_option_value('buflisted', { buf = buf })
+      and not vim.api.nvim_get_option_value('modified', { buf = buf })
+      and buf ~= vim.api.nvim_get_current_buf()
+    then
+      vim.api.nvim_buf_delete(buf, {})
+    end
+  end
+end
+
+map('n', '[b', '<cmd>bprevious<cr>', { desc = 'Prev Buffer' })
+map('n', ']b', '<cmd>bnext<cr>', { desc = 'Next Buffer' })
+map('n', '<leader>bd', '<cmd>:bp | sp | bn | bd<cr>', { desc = '[d]elete Buffer' })
+map('n', '<leader>bo', delete_all_other_buffers, { desc = 'Delete All [o]ther Buffers', silent = true })
+
+
+-- [[ Tabs ]]
+map('n', '<leader><tab>o', '<cmd>tabonly<cr>', { desc = 'Close [o]ther Tabs' })
+map('n', '<leader><tab><tab>', '<cmd>tabnew<cr>', { desc = 'New Tab' })
+map('n', '<leader><tab>d', '<cmd>tabclose<cr>', { desc = '[d]elete (Close) Tab' })
+map('n', ']<tab>', '<cmd>tabnext<cr>', { desc = 'Next Tab' })
+map('n', '[<tab>', '<cmd>tabprevious<cr>', { desc = 'Previous Tab' })
