@@ -104,6 +104,9 @@ vim.lsp.enable('ts_ls')
 vim.api.nvim_create_autocmd('BufWritePre', {
   pattern = '*.lua',
   callback = function(event)
+    if not vim.g.format_on_save then
+      return
+    end
     if #vim.lsp.get_clients({ bufnr = event.buf, method = 'textDocument/formatting' }) == 0 then
       return
     end

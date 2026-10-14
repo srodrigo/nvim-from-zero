@@ -2,6 +2,7 @@ local map = vim.keymap.set
 local diagnostics = require('diagnostics')
 local buffers = require('buffers')
 local completion = require('completion')
+local toggles = require('toggles')
 
 -- [[ Basic Keymaps ]]
 --  See `:help vim.keymap.set()`
@@ -102,3 +103,15 @@ map('t', '<Esc><Esc>', '<C-\\><C-n>', { desc = 'Exit terminal mode' })
 map('n', '<leader>gd', '<cmd>:tab Git<cr>', { desc = 'Open [d]iff View' })
 map('n', '<leader>gm', "<cmd>:exec 'norm O' | Gvdiffsplit!<cr>", { desc = 'Open [m]erge View' })
 map('n', '<leader>gl', '<cmd>:0GcLog<cr>', { desc = 'Open file [l]og' })
+
+-- [[ UI toggles ]]
+
+if vim.lsp.buf.inlay_hint or vim.lsp.inlay_hint then
+	map('n', '<leader>uh', toggles.toggle_inlay_hints, { desc = 'Toggle Inlay [h]ints' })
+end
+
+map('n', '<leader>ud', toggles.toggle_diagnostics, { desc = 'Toggle [d]iagnostics' })
+
+map('n', '<leader>ub', '<cmd>Gitsigns toggle_current_line_blame<cr>', { desc = 'Toggle Git Line [b]lame' })
+map('n', '<leader>uD', '<cmd>Gitsigns toggle_deleted<cr>', { desc = 'Toggle Git Show [D]eleted' })
+map('n', '<leader>uf', toggles.toggle_format_on_save, { desc = 'Toggle [f]ormat on Save' })
