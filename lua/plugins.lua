@@ -12,10 +12,11 @@ vim.pack.add({
 require('mason').setup()
 
 -- The plugin installs the parser and queries; Neovim does the highlighting.
-require('nvim-treesitter').install({ 'lua' }):wait(300000)
+require('nvim-treesitter').install({ 'lua', 'typescript', 'tsx' }):wait(300000)
 vim.api.nvim_create_autocmd('FileType', {
-  pattern = 'lua',
+  pattern = { 'lua', 'typescript', 'typescriptreact' },
   callback = function(event)
-    vim.treesitter.start(event.buf, 'lua')
+    local parser = event.match == 'typescriptreact' and 'tsx' or event.match
+    vim.treesitter.start(event.buf, parser)
   end,
 })

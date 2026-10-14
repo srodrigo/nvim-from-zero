@@ -1,13 +1,14 @@
 # Minimal Neovim config
 
-Neovim 0.12+ configuration for Lua and LÖVE. It uses native LSP and completion,
+Neovim 0.12+ configuration for Lua, LÖVE, and TypeScript. It uses native LSP and completion,
 and installs `mason.nvim`, `nvim-treesitter`, `nvim-tree`, `fzf-lua`, `gitsigns.nvim`, and
 `vim-fugitive` with Neovim's `vim.pack`.
 
 ## Requirements
 
 - `nvim` 0.12+, `git`, `lua-language-server`, `tree-sitter` 0.26.1+, a C compiler, `fzf` newer than 0.36, and `rg` in `PATH`
-- Network access on the first launch to fetch the plugins and Lua parser
+- `node` and `npm` to install and run the TypeScript language server through Mason
+- Network access on the first launch to fetch the plugins and Lua, TypeScript, and TSX parsers
 
 Run this config with `NVIM_APPNAME=nvim-from-zero nvim`, or rename its directory
 to `~/.config/nvim` to make it your default config.
@@ -16,13 +17,20 @@ LuaLS gets Neovim runtime definitions when editing this config. In a project
 whose root has `main.lua` or `conf.lua`, it gets LuaJIT settings and LÖVE API
 definitions. Run a game from the project root with `love .`.
 
-Use `:Mason` to browse external tools, or `:MasonInstall typescript-language-server`
-to install the TypeScript language server. Mason adds its installed commands to
-Neovim's `PATH`; LSP configuration still needs to be added for each language.
+TypeScript LSP, completion, and Tree-sitter highlighting work for `.ts` and
+`.tsx` files. Use `:MasonInstall typescript-language-server` to install the
+server; Mason adds its executable to Neovim's `PATH`.
+
+Use `gd` for a symbol's definition and `gr` for its references when an LSP is
+attached. In TypeScript buffers, `gD` goes to source definition and `gR`
+finds references to the current file. Use `<leader>co` to organize imports,
+`<leader>cm` to add missing imports, `<leader>cu` to remove unused imports,
+and `<leader>cF` to apply available TypeScript fixes. These mappings show
+fzf-lua pickers, including when there is only one result.
 
 Use `:checkhealth vim.lsp`, `:checkhealth mason`, and `:checkhealth nvim-treesitter` to inspect the
 setup. After updating `nvim-treesitter` with `:lua vim.pack.update()`, run
-`:TSUpdate` to update its Lua parser. Neovim's built-in LSP mappings include
+`:TSUpdate` to update its parsers. Neovim's built-in LSP mappings include
 `K` for hover, `grn` for rename, and `gra` for code actions. Accept a completion
 item with `<C-y>`.
 
