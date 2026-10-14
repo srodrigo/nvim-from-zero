@@ -1,4 +1,5 @@
 vim.pack.add({
+  { src = 'https://github.com/mason-org/mason.nvim' },
   { src = 'https://github.com/nvim-treesitter/nvim-treesitter' },
   { src = 'https://github.com/nvim-tree/nvim-tree.lua' },
   { src = 'https://github.com/nvim-tree/nvim-web-devicons' },
@@ -7,6 +8,8 @@ vim.pack.add({
   { src = 'https://github.com/tpope/vim-fugitive' },
   { src = 'https://github.com/gbprod/nord.nvim' },
 })
+
+require('mason').setup()
 
 -- The plugin installs the parser and queries; Neovim does the highlighting.
 require('nvim-treesitter').install({ 'lua' }):wait(300000)
