@@ -56,20 +56,43 @@ vim.lsp.config('ts_ls', {
 vim.api.nvim_create_autocmd('LspAttach', {
   callback = function(event)
     local client = vim.lsp.get_client_by_id(event.data.client_id)
-    if client and client:supports_method('textDocument/completion') then
+    if not client then
+      return
+    end
+
+    local function map(modes, keys, action, desc)
+      vim.keymap.set(modes, keys, action, { buffer = event.buf, desc = desc })
+    end
+
+    if client:supports_method('textDocument/completion') then
       vim.lsp.completion.enable(true, client.id, event.buf, { autotrigger = true })
     end
-    if client and client:supports_method('textDocument/definition') then
-      vim.keymap.set('n', 'gd', function()
+    if client:supports_method('textDocument/definition') then
+      map('n', 'gd', function()
         require('fzf-lua').lsp_definitions({ jump1 = false, fzf_opts = { ['--no-multi'] = true } })
-      end, { buffer = event.buf, desc = 'Go to definition' })
+      end, 'Go to definition')
     end
-    if client and client:supports_method('textDocument/references') then
-      vim.keymap.set('n', 'gr', function()
+    if client:supports_method('textDocument/references') then
+      map('n', 'gr', function()
         require('fzf-lua').lsp_references({ jump1 = false, fzf_opts = { ['--no-multi'] = true } })
-      end, { buffer = event.buf, desc = 'Symbol references' })
+      end, 'Symbol references')
     end
-    if client and client.name == 'ts_ls' then
+    if client:supports_method('textDocument/implementation') then
+      map('n', 'gI', require('fzf-lua').lsp_implementations, 'Go to implementation')
+    end
+    if client:supports_method('textDocument/typeDefinition') then
+      map('n', 'gT', require('fzf-lua').lsp_typedefs, 'Go to type definition')
+    end
+    if client:supports_method('textDocument/documentSymbol') then
+      map('n', '<leader>cs', require('fzf-lua').lsp_document_symbols, 'Document symbols')
+    end
+    if client:supports_method('textDocument/codeAction') then
+      map({ 'n', 'v' }, '<leader>ca', require('fzf-lua').lsp_code_actions, 'Code actions')
+    end
+    if client:supports_method('textDocument/rename') then
+      map('n', '<leader>cr', vim.lsp.buf.rename, 'Rename symbol')
+    end
+    if client.name == 'ts_ls' then
       require('typescript').attach(client, event.buf)
     end
   end,
