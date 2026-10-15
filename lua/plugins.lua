@@ -19,6 +19,7 @@ local prettier_filetypes = {
   javascriptreact = true,
   typescript = true,
   typescriptreact = true,
+  markdown = true,
 }
 
 require('conform').setup({
