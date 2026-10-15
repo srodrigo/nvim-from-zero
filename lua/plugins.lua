@@ -14,15 +14,6 @@ vim.pack.add({
 
 require('mason').setup()
 
-require('conform').setup({
-  formatters_by_ft = {
-    javascript = { 'prettier' },
-    javascriptreact = { 'prettier' },
-    typescript = { 'prettier' },
-    typescriptreact = { 'prettier' },
-  },
-})
-
 local prettier_filetypes = {
   javascript = true,
   javascriptreact = true,
@@ -30,11 +21,19 @@ local prettier_filetypes = {
   typescriptreact = true,
 }
 
-vim.api.nvim_create_autocmd('BufWritePre', {
-  callback = function(event)
-    if vim.g.format_on_save and prettier_filetypes[vim.bo[event.buf].filetype] then
-      require('conform').format({ bufnr = event.buf, timeout_ms = 1000 })
+require('conform').setup({
+  formatters_by_ft = {
+    javascript = { 'prettier' },
+    javascriptreact = { 'prettier' },
+    typescript = { 'prettier' },
+    typescriptreact = { 'prettier' },
+  },
+  -- Async formatting to avoid prettier blocking save on large codebases
+  format_after_save = function(bufnr)
+    if not vim.g.format_on_save and not prettier_filetypes[vim.bo[bufnr].filetype] then
+      return
     end
+	return { bufnr = bufnr }
   end,
 })
 
