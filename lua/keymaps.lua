@@ -115,3 +115,4 @@ map('n', '<leader>ud', toggles.toggle_diagnostics, { desc = 'Toggle [d]iagnostic
 map('n', '<leader>ub', '<cmd>Gitsigns toggle_current_line_blame<cr>', { desc = 'Toggle Git Line [b]lame' })
 map('n', '<leader>uD', '<cmd>Gitsigns toggle_deleted<cr>', { desc = 'Toggle Git Show [D]eleted' })
 map('n', '<leader>uf', toggles.toggle_format_on_save, { desc = 'Toggle [f]ormat on Save' })
+map('n', '<leader>uz', toggles.toggle_zen, { desc = 'Toggle [z]en mode' })

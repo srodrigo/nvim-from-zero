@@ -52,4 +52,92 @@ function M.toggle_format_on_save()
 	end
 end
 
+local zen
+
+local function zen_size()
+	local width = math.max(1, math.floor(vim.o.columns * 0.6))
+	local height = math.max(1, vim.o.lines - vim.o.cmdheight - 1)
+	return width, height
+end
+
+local function close_zen()
+	if not zen then
+		return
+	end
+
+	local current = zen
+	zen = nil -- WinClosed also runs when we close these windows ourselves.
+
+	if vim.api.nvim_win_is_valid(current.content) then
+		local cursor = vim.api.nvim_win_get_cursor(current.content)
+		if vim.api.nvim_win_is_valid(current.source) then
+			pcall(vim.api.nvim_win_set_cursor, current.source, cursor)
+		end
+		vim.api.nvim_win_close(current.content, true)
+	end
+	if vim.api.nvim_win_is_valid(current.backdrop) then
+		vim.api.nvim_win_close(current.backdrop, true)
+	end
+	if vim.api.nvim_win_is_valid(current.source) then
+		vim.api.nvim_set_current_win(current.source)
+	end
+end
+
+function M.toggle_zen()
+	if zen then
+		close_zen()
+		return
+	end
+	local source = vim.api.nvim_get_current_win()
+	local buffer = vim.api.nvim_get_current_buf()
+	local cursor = vim.api.nvim_win_get_cursor(source)
+	local width, height = zen_size()
+	local backdrop_buffer = vim.api.nvim_create_buf(false, true)
+	local backdrop = vim.api.nvim_open_win(backdrop_buffer, false, {
+		relative = 'editor', row = 0, col = 0,
+		width = vim.o.columns, height = height,
+		style = 'minimal', focusable = false, zindex = 49,
+	})
+	vim.wo[backdrop].winhighlight = 'Normal:Normal,EndOfBuffer:Normal'
+	vim.wo[backdrop].fillchars = 'eob: '
+
+	local content = vim.api.nvim_open_win(buffer, true, {
+		relative = 'editor', row = 0,
+		col = math.floor((vim.o.columns - width) / 2),
+		width = width, height = height,
+		style = 'minimal', zindex = 50,
+	})
+	vim.api.nvim_win_set_cursor(content, cursor)
+	zen = { source = source, backdrop = backdrop, content = content }
+end
+
+vim.api.nvim_create_autocmd('VimResized', {
+	callback = function()
+		if not zen then return end
+		local width, height = zen_size()
+		vim.api.nvim_win_set_config(zen.backdrop, {
+			relative = 'editor', row = 0, col = 0,
+			width = vim.o.columns, height = height,
+		})
+		vim.api.nvim_win_set_config(zen.content, {
+			relative = 'editor', row = 0,
+			col = math.floor((vim.o.columns - width) / 2),
+			width = width, height = height,
+		})
+	end,
+})
+
+vim.api.nvim_create_autocmd('WinClosed', {
+	callback = function(event)
+		if zen and (tonumber(event.match) == zen.content or tonumber(event.match) == zen.backdrop) then
+			local closed_zen = zen
+			vim.schedule(function()
+				if zen == closed_zen then close_zen() end
+			end)
+		end
+	end,
+})
+
+vim.api.nvim_create_user_command('ZenToggle', M.toggle_zen, { desc = 'Toggle centered Zen mode' })
+
 return M

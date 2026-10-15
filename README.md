@@ -49,6 +49,9 @@ setup. After updating `nvim-treesitter` with `:lua vim.pack.update()`, run
 item with `<C-y>`.
 
 Toggle nvim-tree with `<leader>e`.
+Toggle Zen mode with `<leader>uz` or `:ZenToggle`. It centers the current
+buffer in a column 60% of the screen width and restores the previous window
+when toggled off.
 Toggle a reusable terminal with `<leader>th` (horizontal), `<leader>tv`
 (vertical), or `<leader>tf` (floating). The corresponding commands are
 `:TermToggleHorizontal`, `:TermToggleVertical`, and `:TermToggleFloat`. Use
