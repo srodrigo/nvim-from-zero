@@ -8,6 +8,7 @@ vim.pack.add({
   { src = 'https://github.com/ibhagwan/fzf-lua' },
   { src = 'https://github.com/lewis6991/gitsigns.nvim' },
   { src = 'https://github.com/tpope/vim-fugitive' },
+  { src = 'https://forge.barrettruth.com/barrettruth/diffs.nvim' },
   { src = 'https://github.com/gbprod/nord.nvim' },
   { src = 'https://github.com/OXY2DEV/markview.nvim' },
 })
@@ -39,7 +40,7 @@ require('conform').setup({
 })
 
 -- The plugin installs the parser and queries; Neovim does the highlighting.
-require('nvim-treesitter').install({ 'lua', 'html', 'typescript', 'tsx', 'markdown', 'markdown_inline' }):wait(300000)
+require('nvim-treesitter').install({ 'lua', 'html', 'typescript', 'tsx', 'markdown', 'markdown_inline', 'diff' }):wait(300000)
 vim.api.nvim_create_autocmd('FileType', {
   pattern = { 'lua', 'html', 'typescript', 'typescriptreact' },
   callback = function(event)

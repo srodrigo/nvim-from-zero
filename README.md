@@ -1,7 +1,7 @@
 # Minimal Neovim config
 
 Neovim 0.12+ configuration for Lua, LÖVE, Fennel, TypeScript, and PHP. It uses native LSP and completion,
-and installs `mason.nvim`, `conform.nvim`, `nvim-treesitter`, `nvim-ts-autotag`, `nvim-tree`, `fzf-lua`, `gitsigns.nvim`, `markview.nvim`, and
+and installs `mason.nvim`, `conform.nvim`, `nvim-treesitter`, `nvim-ts-autotag`, `nvim-tree`, `fzf-lua`, `gitsigns.nvim`, `diffs.nvim`, `markview.nvim`, and
 `vim-fugitive` with Neovim's `vim.pack`.
 
 ## Requirements
@@ -76,5 +76,7 @@ include `<leader>gS` to stage the buffer, `<leader>gu` to undo staging,
 `<leader>gR` to reset the buffer, and `<leader>gb` to show line blame.
 Use `:Git` for Fugitive's Git status and commands, or `:Gdiffsplit` to compare
 the current file with its Git version.
+`diffs.nvim` adds syntax highlighting to diffs, including Fugitive and Gitsigns
+views. Use `:Diff` to compare against a Git revision.
 
 Markview's Markdown preview starts disabled. Toggle it with `:Markview`.
