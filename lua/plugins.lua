@@ -40,9 +40,9 @@ require('conform').setup({
 })
 
 -- The plugin installs the parser and queries; Neovim does the highlighting.
-require('nvim-treesitter').install({ 'lua', 'html', 'typescript', 'tsx', 'markdown', 'markdown_inline', 'diff' }):wait(300000)
+require('nvim-treesitter').install({ 'lua', 'fennel', 'html', 'typescript', 'tsx', 'markdown', 'markdown_inline', 'diff' }):wait(300000)
 vim.api.nvim_create_autocmd('FileType', {
-  pattern = { 'lua', 'html', 'typescript', 'typescriptreact' },
+  pattern = { 'lua', 'fennel', 'html', 'typescript', 'typescriptreact' },
   callback = function(event)
     local parser = event.match == 'typescriptreact' and 'tsx' or event.match
     vim.treesitter.start(event.buf, parser)

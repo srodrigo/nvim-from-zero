@@ -9,7 +9,7 @@ and installs `mason.nvim`, `conform.nvim`, `nvim-treesitter`, `nvim-ts-autotag`,
 - `nvim` 0.12+, `git`, `lua-language-server`, `tree-sitter` 0.26.1+, a C compiler, `fzf` newer than 0.36, and `rg` in `PATH`
 - `node` and `npm` to install and run the TypeScript language server through Mason
 - `php` to run PHPactor
-- Network access on the first launch to fetch the plugins and Lua, HTML, TypeScript, and TSX parsers
+- Network access on the first launch to fetch the plugins and Lua, Fennel, HTML, TypeScript, and TSX parsers
 
 Run this config with `NVIM_APPNAME=nvim-from-zero nvim`, or rename its directory
 to `~/.config/nvim` to make it your default config.
@@ -24,7 +24,7 @@ server; Mason adds its executable to Neovim's `PATH`.
 
 `nvim-ts-autotag` closes and renames matching tags in HTML and TSX files.
 
-Fennel LSP and completion work for `.fnl` files. Use `:MasonInstall fennel-ls`
+Fennel LSP, completion, and Tree-sitter highlighting work for `.fnl` files. Use `:MasonInstall fennel-ls`
 to install the server; Mason adds its executable to Neovim's `PATH`.
 
 PHP LSP and completion work for `.php` files. Use `:MasonInstall phpactor`
