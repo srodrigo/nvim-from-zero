@@ -26,6 +26,9 @@ server; Mason adds its executable to Neovim's `PATH`.
 
 Fennel LSP, completion, and Tree-sitter highlighting work for `.fnl` files. Use `:MasonInstall fennel-ls`
 to install the server; Mason adds its executable to Neovim's `PATH`.
+For LÖVE completion, install the `love2d.lua` docset in `~/.local/share/fennel-ls/docsets/`
+and add `{:libraries {:love2d true}}` to `flsproject.fnl` in the game root.
+In Fennel buffers, `gd` on a `love.*` API function opens its LuaLS definition when available.
 
 PHP LSP and completion work for `.php` files. Use `:MasonInstall phpactor`
 to install the server; Mason adds its executable to Neovim's `PATH`.

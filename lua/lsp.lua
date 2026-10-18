@@ -83,10 +83,21 @@ vim.api.nvim_create_autocmd('LspAttach', {
     end
 
     if client:supports_method('textDocument/completion') then
+      if client.name == 'fennel_ls' then
+        -- fennel-ls completes dotted names, but only advertises brackets as triggers.
+        local triggers = client.server_capabilities.completionProvider.triggerCharacters or {}
+        if not vim.tbl_contains(triggers, '.') then
+          table.insert(triggers, '.')
+        end
+        client.server_capabilities.completionProvider.triggerCharacters = triggers
+      end
       vim.lsp.completion.enable(true, client.id, event.buf, { autotrigger = true })
     end
     if client:supports_method('textDocument/definition') then
       map('n', 'gd', function()
+        if client.name == 'fennel_ls' and require('fennel_definition').go_to_love_metadata() then
+          return
+        end
         require('fzf-lua').lsp_definitions({ jump1 = false, fzf_opts = { ['--no-multi'] = true } })
       end, 'Go to definition')
     end
