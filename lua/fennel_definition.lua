@@ -53,7 +53,7 @@ local function symbol_at_cursor()
   end
 end
 
-local function love_library()
+local function lua_metadata()
   local executable = vim.uv.fs_realpath(vim.fn.exepath('lua-language-server'))
   if not executable then
     return
@@ -66,9 +66,9 @@ local function love_library()
     vim.fs.dirname(bin_dir),
     vim.fs.joinpath(vim.fs.dirname(bin_dir), 'libexec'),
   }) do
-    local library = vim.fs.joinpath(parent, 'meta', '3rd', 'love2d', 'library')
-    if vim.uv.fs_stat(vim.fs.joinpath(library, 'love.lua')) then
-      return library
+    local metadata = vim.fs.joinpath(parent, 'meta')
+    if vim.uv.fs_stat(vim.fs.joinpath(metadata, 'template', 'table.lua')) then
+      return metadata
     end
   end
 end
@@ -79,14 +79,46 @@ function M.go_to_love_metadata()
     return false
   end
 
-  local library = love_library()
-  if not library then
+  local metadata = lua_metadata()
+  if not metadata then
     return false
   end
 
+  local library = vim.fs.joinpath(metadata, '3rd', 'love2d', 'library')
   local module = symbol:match('^love%.([%w_]+)%.')
   local path = module and vim.fs.joinpath(library, 'love', module .. '.lua') or vim.fs.joinpath(library, 'love.lua')
   if not vim.uv.fs_stat(path) then
+    return false
+  end
+
+  local needle = 'function ' .. symbol .. '('
+  for lnum, line in ipairs(vim.fn.readfile(path)) do
+    local col = line:find(needle, 1, true)
+    if col then
+      vim.cmd('hide edit ' .. vim.fn.fnameescape(path))
+      vim.api.nvim_win_set_cursor(0, { lnum, col - 1 + #'function ' })
+      return true
+    end
+  end
+  return false
+end
+
+function M.go_to_lua_metadata()
+  local symbol = symbol_at_cursor()
+  if not symbol then
+    return false
+  end
+
+  local module = symbol:match('^([%a_][%w_]*)%.[%a_][%w_]*$')
+  if not module or not vim.tbl_contains({
+    'table', 'string', 'math', 'io', 'os', 'coroutine', 'package', 'debug', 'utf8', 'bit', 'bit32',
+  }, module) then
+    return false
+  end
+
+  local metadata = lua_metadata()
+  local path = metadata and vim.fs.joinpath(metadata, 'template', module .. '.lua')
+  if not path or not vim.uv.fs_stat(path) then
     return false
   end
 

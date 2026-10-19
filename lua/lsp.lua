@@ -97,7 +97,9 @@ vim.api.nvim_create_autocmd('LspAttach', {
       map('n', 'gd', function()
         if client.name == 'fennel_ls' then
           local fennel_definition = require('fennel_definition')
-          if fennel_definition.go_to_required_module() or fennel_definition.go_to_love_metadata() then
+          if fennel_definition.go_to_required_module()
+            or fennel_definition.go_to_love_metadata()
+            or fennel_definition.go_to_lua_metadata() then
             return
           end
         end
