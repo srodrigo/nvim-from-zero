@@ -1,5 +1,47 @@
 local M = {}
 
+function M.go_to_required_module()
+  local line = vim.api.nvim_get_current_line()
+  local col = vim.api.nvim_win_get_cursor(0)[2]
+  local module
+
+  for _, start, name, finish in line:gmatch('()%(%s*require%s+()"([%w_.%-]+)"()') do
+    if col >= start - 1 and col < finish - 1 then
+      module = name
+      break
+    end
+  end
+  if not module then
+    for _, start, name, finish in line:gmatch('()%(%s*require%s+():([%w_.%-]+)()') do
+      if col >= start - 1 and col < finish - 1 then
+        module = name
+        break
+      end
+    end
+  end
+  if not module then
+    return false
+  end
+
+  local bufnr = vim.api.nvim_get_current_buf()
+  local client = vim.lsp.get_clients({ bufnr = bufnr, name = 'fennel_ls' })[1]
+  local root = client and client.config.root_dir
+    or vim.fs.root(bufnr, { 'flsproject.fnl', '.git' })
+  if not root then
+    return false
+  end
+
+  local relative = module:gsub('%.', '/')
+  for _, suffix in ipairs({ '.fnl', '/init.fnl' }) do
+    local path = vim.fs.joinpath(root, relative .. suffix)
+    if vim.uv.fs_stat(path) then
+      vim.cmd('hide edit ' .. vim.fn.fnameescape(path))
+      return true
+    end
+  end
+  return false
+end
+
 local function symbol_at_cursor()
   local line = vim.api.nvim_get_current_line()
   local col = vim.api.nvim_win_get_cursor(0)[2]

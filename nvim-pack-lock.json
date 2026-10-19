@@ -4,6 +4,10 @@
       "rev": "016802de402556da54c36bd7359b441266b01cdd",
       "src": "https://github.com/stevearc/conform.nvim"
     },
+    "diffs.nvim": {
+      "rev": "009849a5ca22846effb2d161c3aac34167e872f5",
+      "src": "https://github.com/barrettruth/diffs.nvim"
+    },
     "fzf-lua": {
       "rev": "71b6d3667c4846ab2f0bab06e68d196d2eea016c",
       "src": "https://github.com/ibhagwan/fzf-lua"

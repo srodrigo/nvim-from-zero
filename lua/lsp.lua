@@ -95,8 +95,11 @@ vim.api.nvim_create_autocmd('LspAttach', {
     end
     if client:supports_method('textDocument/definition') then
       map('n', 'gd', function()
-        if client.name == 'fennel_ls' and require('fennel_definition').go_to_love_metadata() then
-          return
+        if client.name == 'fennel_ls' then
+          local fennel_definition = require('fennel_definition')
+          if fennel_definition.go_to_required_module() or fennel_definition.go_to_love_metadata() then
+            return
+          end
         end
         require('fzf-lua').lsp_definitions({ jump1 = false, fzf_opts = { ['--no-multi'] = true } })
       end, 'Go to definition')
