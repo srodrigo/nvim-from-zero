@@ -25,13 +25,22 @@ local prettier_filetypes = {
 
 require('conform').setup({
   formatters_by_ft = {
+    fennel = { 'fnlfmt' },
     javascript = { 'prettier' },
     javascriptreact = { 'prettier' },
     typescript = { 'prettier' },
     typescriptreact = { 'prettier' },
   },
+  format_on_save = function(bufnr)
+    if vim.bo[bufnr].filetype == 'fennel' and vim.g.format_on_save then
+      return { bufnr = bufnr, timeout_ms = 1000 }
+    end
+  end,
   -- Async formatting to avoid prettier blocking save on large codebases
   format_after_save = function(bufnr)
+    if vim.bo[bufnr].filetype == 'fennel' then
+      return
+    end
     if not vim.g.format_on_save and not prettier_filetypes[vim.bo[bufnr].filetype] then
       return
     end

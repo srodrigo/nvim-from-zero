@@ -33,10 +33,12 @@ In Fennel buffers, `gd` on a `love.*` API function opens its LuaLS definition wh
 PHP LSP and completion work for `.php` files. Use `:MasonInstall phpactor`
 to install the server; Mason adds its executable to Neovim's `PATH`.
 
-Lua files format on save through LuaLS. JavaScript and TypeScript files format
-on save through Conform and Prettier. Install Prettier with `:MasonInstall prettier`;
-Mason makes the executable available to Conform. Use `:ConformInfo` in a buffer
-to check which formatter is available.
+Lua files format on save through LuaLS. Fennel files format on save through
+Conform and `fnlfmt`; install `fnlfmt` and make sure it is in `PATH`.
+JavaScript and TypeScript files format on save through Conform and Prettier.
+Install Prettier with `:MasonInstall prettier`; Mason makes the executable
+available to Conform. Use `:ConformInfo` in a buffer to check which formatter
+is available. Use `<leader>uf` to toggle Fennel format on save.
 
 Use `gd` for a symbol's definition and `gr` for its references when an LSP is
 attached. In TypeScript buffers, `gD` goes to source definition and `gR`
